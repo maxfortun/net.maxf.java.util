@@ -3,6 +3,7 @@ package net.maxf.java.util;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -19,11 +20,19 @@ public class ResourceBundleChainTest {
 		ResourceBundle envResourceBundle = new EnvResourceBundle();
 
 		Map<String, String> map = new HashMap<>();
+		map.put("mapKey1", "mapValue1");
+		map.put("mapKey2", "mapValue2");
 		ResourceBundle mapResourceBundle = new MapResourceBundle(map);
+
+		ResourceBundle emptyMapResourceBundle = new MapResourceBundle(new HashMap<String, String>());
 
 		ResourceBundle fileResourceBundle = ResourceBundle.getBundle("ApplicationResources");
 
-		ResourceBundle resourceBundle = new ResourceBundleChain(Arrays.asList(new ResourceBundle[]{ envResourceBundle, mapResourceBundle, fileResourceBundle}));
+		List<ResourceBundle> list = Arrays.asList(new ResourceBundle[]{ envResourceBundle, mapResourceBundle, emptyMapResourceBundle, fileResourceBundle});
+
+		logger.fine("ResourceBundleChain of "+list.size()+" bundles");
+
+		ResourceBundle resourceBundle = new ResourceBundleChain(list);
 
 		Enumeration<String> keyEnumeration = resourceBundle.getKeys();
 		while(keyEnumeration.hasMoreElements()) {
@@ -33,9 +42,11 @@ public class ResourceBundleChainTest {
 		}
 	}
 
+/*
 	@Test
 	public void testResourceBundleChainGet() throws Exception {
 	}
+*/
 
 }
 

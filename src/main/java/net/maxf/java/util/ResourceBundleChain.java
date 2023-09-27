@@ -8,11 +8,7 @@ import java.util.MissingResourceException;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
-import java.util.logging.Logger;
-
 public class ResourceBundleChain extends ResourceBundle {
-	private Logger logger = Logger.getLogger(ResourceBundleChain.class.getName());
-
 	private List<ResourceBundle> resourceBundles;
 
 	public ResourceBundleChain(List<ResourceBundle> resourceBundles) {
@@ -54,7 +50,6 @@ public class ResourceBundleChain extends ResourceBundle {
 	}
 
 	private class KeyEnumeration implements Enumeration<String> {
-		private Logger logger = Logger.getLogger(KeyEnumeration.class.getName());
 
 		private boolean hasMoreElements = false;
 
@@ -69,7 +64,6 @@ public class ResourceBundleChain extends ResourceBundle {
 
 			if(currentResourceBundleKeyEnumeration.hasMoreElements()) {
 				hasMoreElements = true;
-				logger.fine("nextNonEmptyBundle cur: currentResourceBundleIndex="+currentResourceBundleIndex+" hasMoreElements="+hasMoreElements);
 				return;
 			}
 
@@ -77,14 +71,11 @@ public class ResourceBundleChain extends ResourceBundle {
 				currentResourceBundleKeyEnumeration = resourceBundles.get(currentResourceBundleIndex).getKeys();
 				if(currentResourceBundleKeyEnumeration.hasMoreElements()) {
 					hasMoreElements = true;
-					logger.fine("nextNonEmptyBundle next: currentResourceBundleIndex="+currentResourceBundleIndex+" hasMoreElements="+hasMoreElements);
 					return;
 				}
-				logger.fine("nextNonEmptyBundle next zero: currentResourceBundleIndex="+currentResourceBundleIndex+" hasMoreElements="+hasMoreElements);
 			}
 
 			hasMoreElements = false;
-			logger.fine("nextNonEmptyBundle done: currentResourceBundleIndex="+currentResourceBundleIndex+" hasMoreElements="+hasMoreElements);
 		}
 
 		public boolean hasMoreElements() {
@@ -99,7 +90,6 @@ public class ResourceBundleChain extends ResourceBundle {
 			String nextElement = currentResourceBundleKeyEnumeration.nextElement();
 
 			if(!currentResourceBundleKeyEnumeration.hasMoreElements()) {
-				logger.fine("nextElement: done");
 				nextNonEmptyBundle();
 			}
 
