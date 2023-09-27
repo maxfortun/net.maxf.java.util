@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import net.maxf.java.util.EnvResourceBundle;
-
 public class EnvResourceBundleTest {
 	private Logger logger = Logger.getLogger(EnvResourceBundleTest.class.getName());
 
