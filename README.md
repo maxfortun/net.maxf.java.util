@@ -2,6 +2,9 @@
 
 Extending java.util classes for that extra convenience :)  
 
+## [ResourceBundle](https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/ResourceBundle.html)
+
+
 Class | Description 
 --- | ---
 [EnvResourceBundle](src/main/java/net/maxf/java/util/EnvResourceBundle.java) | Retrieves resources from the environment variables. Useful for runtimes that automatically provide configuration.
