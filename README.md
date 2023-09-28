@@ -15,5 +15,6 @@ Class | Description
 [PrefixedKeyResourceBundle](src/main/java/net/maxf/java/util/PrefixedKeyResourceBundle.java) | Base class. Adds a key prefix. Useful when working with large resource bundles, but only need a subset of keys.
 [PrefixedKeyResourceBundleWrapper](src/main/java/net/maxf/java/util/PrefixedKeyResourceBundleWrapper.java) | Adds prefix functionality by wrapping existing ResourceBundles.
 [ParameterStoreResourceBundle](src/main/java/net/maxf/java/util/aws/ssm/ParameterStoreResourceBundle.java) | Retrieves resources from AWS SSM Parameter Store. Useful to keep configuration in the cloud. 
+[CachingResourceBundle](src/main/java/net/maxf/java/util/CachingResourceBundle.java) | Caches values for ttl in milliseconds. Useful to avoid the expensive IO.
 [ResourceBundleChain](src/main/java/net/maxf/java/util/ResourceBundleChain.java) | Searches for configuration in a chain of bundles. Useful for overriding. Typical chain usually goes from most flexible to least flexible. e.g.: Cache -> Parameter Store -> Secrets Store -> Environment -> File. 
 
