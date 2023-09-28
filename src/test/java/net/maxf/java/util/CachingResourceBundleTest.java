@@ -19,7 +19,7 @@ public class CachingResourceBundleTest {
 		map.put("key", "value1");
 
 		long ttl = 1000;
-		ResourceBundle resourceBundle = new CachingResourceBundle(new MapResourceBundle(map), ttl);
+		ResourceBundle resourceBundle = new CachingResourceBundle(new MapResourceBundle(map)).ttl(ttl);
 
 		String value = resourceBundle.getString("key");
 
