@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
-public class MapResourceBundle extends ResourceBundle {
+public class MapResourceBundle extends PrefixedKeyResourceBundle {
 
-	protected Map<String, String> map;
+	private Map<String, String> map;
 
 	public MapResourceBundle(Map<String, String> map) {
 		this.map = map;
@@ -15,12 +15,12 @@ public class MapResourceBundle extends ResourceBundle {
 
 	@Override
 	protected Object handleGetObject(String key) {
-		return map.get(key);
+		return map.get(prefixedKey(key));
 	}
 
 	@Override
 	public Enumeration<String> getKeys() {
-		return Collections.enumeration(map.keySet());
+		return new PrefixedKeyEnumeration(Collections.enumeration(map.keySet()));
 	}
 
 }

@@ -8,7 +8,7 @@ import java.util.MissingResourceException;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
-public class ResourceBundleChain extends ResourceBundle {
+public class ResourceBundleChain extends PrefixedKeyResourceBundle {
 	private List<ResourceBundle> resourceBundles;
 
 	public ResourceBundleChain(List<ResourceBundle> resourceBundles) {
@@ -17,13 +17,15 @@ public class ResourceBundleChain extends ResourceBundle {
 
 	@Override
 	protected Object handleGetObject(String key) {
+		String prefixedKey = prefixedKey(key);
+
 		ArrayList<Throwable> suppressed = new ArrayList<>();
 		ArrayList<String> bundles = new ArrayList<>();
 
 		try {
 			for(ResourceBundle resourceBundle : resourceBundles) {
 				try {
-					Object object = resourceBundle.getObject(key);
+					Object object = resourceBundle.getObject(prefixedKey);
 					if(null != object) {
 						return object;
 					}
@@ -38,9 +40,9 @@ public class ResourceBundleChain extends ResourceBundle {
 
 		
 		MissingResourceException missingResourceException = new MissingResourceException(
-			"Can't find resource for bundles " + String.join(",", bundles) + ", key " + key,
+			"Can't find resource for bundles " + String.join(",", bundles) + ", key " + prefixedKey,
 			this.getClass().getName(),
-			key);
+			prefixedKey);
 
 		for(Throwable t : suppressed) {
 			missingResourceException.addSuppressed(t);
@@ -99,7 +101,7 @@ public class ResourceBundleChain extends ResourceBundle {
 
 	@Override
 	public Enumeration<String> getKeys() {
-		return new KeyEnumeration();
+		return new PrefixedKeyEnumeration(new KeyEnumeration());
 	}
 
 }

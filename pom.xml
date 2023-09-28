@@ -4,12 +4,22 @@
 	<groupId>maxf</groupId>
 	<artifactId>java.util</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
+
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<aws.java.sdk.version>2.20.155</aws.java.sdk.version>
 	</properties>
+
 	<dependencies>
+
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>ssm</artifactId>
+			<version>${aws.java.sdk.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -19,6 +29,7 @@
 		</dependency>
 
 	</dependencies>
+
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
