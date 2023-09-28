@@ -1,4 +1,4 @@
-package net.maxf.java.util.aws;
+package net.maxf.java.util.aws.ssm;
 
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.GetParametersRequest;
@@ -9,6 +9,7 @@ import software.amazon.awssdk.services.ssm.model.Parameter;
 
 import software.amazon.awssdk.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Enumeration;
@@ -21,10 +22,20 @@ import net.maxf.java.util.PrefixedKeyResourceBundle;
 public class ParameterStoreResourceBundle extends PrefixedKeyResourceBundle {
 	private SsmClient ssmClient;
 
+	private int maxResults = 50;
 	private String root = null;
 
 	public ParameterStoreResourceBundle(SsmClient ssmClient) {
 		this.ssmClient = ssmClient;
+	}
+
+	public ParameterStoreResourceBundle maxResults(int maxResults) {
+		this.maxResults = maxResults;
+		return this;
+	}
+
+	public int maxResults() {
+		return maxResults;
 	}
 
 	public ParameterStoreResourceBundle root(String root) {
@@ -60,11 +71,14 @@ public class ParameterStoreResourceBundle extends PrefixedKeyResourceBundle {
 
 	private class KeyEnumeration implements Enumeration<String> {
 
+		private int maxResults;
 		private String path = root;
 		private String nextToken = null;
 		private List<Parameter> parameters = null;
 
-		public KeyEnumeration() {
+		public KeyEnumeration(int maxResults) {
+			this.maxResults = maxResults;
+
 			if(null == path) {
 				path = prefix();
 			} else {
@@ -79,10 +93,10 @@ public class ParameterStoreResourceBundle extends PrefixedKeyResourceBundle {
 		}
 
 		private void nextBatch() {
-			GetParametersByPathRequest request = GetParametersByPathRequest.builder().path(path).recursive(true).nextToken(nextToken).maxResults(50).build();
+			GetParametersByPathRequest request = GetParametersByPathRequest.builder().path(path).recursive(true).nextToken(nextToken).maxResults(maxResults).build();
 			GetParametersByPathResponse response = ssmClient.getParametersByPath(request);
 			nextToken = response.nextToken();
-			parameters = response.parameters();
+			parameters = new ArrayList<Parameter>(response.parameters());
 		}
 
 		public boolean hasMoreElements() {
@@ -103,7 +117,7 @@ public class ParameterStoreResourceBundle extends PrefixedKeyResourceBundle {
 
 	@Override
 	public Enumeration<String> getKeys() {
-		return prefixedKeyEnumeration(new KeyEnumeration());
+		return prefixedKeyEnumeration(new KeyEnumeration(maxResults));
 	}
 
 }
