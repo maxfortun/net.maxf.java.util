@@ -31,8 +31,8 @@ public class VaultResourceBundleTest {
 
 	@Test
 	public void testVaultResourceBundleTestGetKeys() throws Exception {
-		ClientAuthentication clientAuthentication = new TokenAuthentication(VaultToken.of(System.getProperty("VAULT_TOKEN")));
-		VaultTemplate vaultTemplate = new NamespaceScopedVaultTemplate(VaultEndpoint.from(new URI(System.getProperty("VAULT_ADDR"))), clientAuthentication, System.getProperty("VAULT_NAMESPACE"));
+		ClientAuthentication clientAuthentication = new TokenAuthentication(VaultToken.of(System.getenv("VAULT_TOKEN")));
+		VaultTemplate vaultTemplate = new NamespaceScopedVaultTemplate(VaultEndpoint.from(new URI(System.getenv("VAULT_ADDR"))), clientAuthentication, System.getenv("VAULT_NAMESPACE"));
 		VaultKeyValueOperations vaultKeyValueOperations = vaultTemplate.opsForKeyValue("secret", KeyValueBackend.unversioned());
 
 		ResourceBundle resourceBundle = new VaultResourceBundle(vaultKeyValueOperations);
