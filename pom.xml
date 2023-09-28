@@ -6,10 +6,11 @@
 	<version>1.0.0-SNAPSHOT</version>
 
 	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>15</maven.compiler.source>
+		<maven.compiler.target>15</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<software.amazon.awssdk.version>2.20.155</software.amazon.awssdk.version>
+		<spring-vault.version>3.0.4</spring-vault.version>
 	</properties>
 
 	<dependencies>
@@ -20,6 +21,13 @@
 			<version>${software.amazon.awssdk.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.vault</groupId>
+			<artifactId>spring-vault-core</artifactId>
+			<version>${spring-vault.version}</version>
+			<scope>provided</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
