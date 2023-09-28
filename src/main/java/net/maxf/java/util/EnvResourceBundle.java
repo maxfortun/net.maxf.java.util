@@ -13,7 +13,7 @@ public class EnvResourceBundle extends PrefixedKeyResourceBundle {
 
 	@Override
 	public Enumeration<String> getKeys() {
-		return new PrefixedKeyEnumeration(Collections.enumeration(System.getenv().keySet()));
+		return prefixedKeyEnumeration(Collections.enumeration(System.getenv().keySet()));
 	}
 
 }

@@ -30,7 +30,7 @@ public abstract class PrefixedKeyResourceBundle extends ResourceBundle {
 		return key.replaceAll("^"+prefix,"");
 	}
 
-	protected class PrefixedKeyEnumeration implements Enumeration<String> {
+	private class PrefixedKeyEnumeration implements Enumeration<String> {
 		private Enumeration<String> enumeration;
 
 		protected PrefixedKeyEnumeration(Enumeration<String> enumeration) {
@@ -44,5 +44,9 @@ public abstract class PrefixedKeyResourceBundle extends ResourceBundle {
         public String nextElement() {
 			return unprefixedKey(enumeration.nextElement());
 		}
+	}
+
+	protected Enumeration<String> prefixedKeyEnumeration(Enumeration<String> enumeration) {
+		return new PrefixedKeyEnumeration(enumeration);
 	}
 }

@@ -20,7 +20,7 @@ public class MapResourceBundle extends PrefixedKeyResourceBundle {
 
 	@Override
 	public Enumeration<String> getKeys() {
-		return new PrefixedKeyEnumeration(Collections.enumeration(map.keySet()));
+		return prefixedKeyEnumeration(Collections.enumeration(map.keySet()));
 	}
 
 }

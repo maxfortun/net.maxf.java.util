@@ -101,7 +101,7 @@ public class ResourceBundleChain extends PrefixedKeyResourceBundle {
 
 	@Override
 	public Enumeration<String> getKeys() {
-		return new PrefixedKeyEnumeration(new KeyEnumeration());
+		return prefixedKeyEnumeration(new KeyEnumeration());
 	}
 
 }
