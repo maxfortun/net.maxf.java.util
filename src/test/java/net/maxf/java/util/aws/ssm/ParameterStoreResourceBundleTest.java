@@ -50,17 +50,5 @@ public class ParameterStoreResourceBundleTest {
 		}
 	}
 
-	@Test
-	public void testResourceBundleChainGet() throws Exception {
-/*
-		ResourceBundle resourceBundle = new ResourceBundleChain(list);
-
-
-		assertTrue(resourceBundle.getString("env_bundle").equals("env"));
-		assertTrue(resourceBundle.getString("mapKey2").equals("mapValue2"));
-		assertTrue(resourceBundle.getString("key1").equals("file"));
-*/
-	}
-
 }
 
