@@ -1,6 +1,6 @@
 # net.maxf.java.util
 
-Extending java.util classes for that extra convenience :)  
+Extending java.util classes for that bit of extra convenience :)  
 
 ## [ResourceBundle](https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/ResourceBundle.html)
 Hardcoding is bad. Taking configuration `out of the code` is better. Taking configuration `out of the depoyment` is best.  
