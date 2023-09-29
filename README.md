@@ -3,7 +3,7 @@
 Extending java.util classes for that bit of extra convenience :)  
 
 ## [ResourceBundle](https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/ResourceBundle.html)
-Hardcoding is bad. Taking configuration `out of the code` is better. Taking configuration `out of the depoyment` is best.  
+Hardcoding is bad. Taking configuration `out of the code` is better. Taking configuration `out of the deployment` is best.  
 Technical debt is costly. Refactoring is expensive. Retesting is time consuming.  
 Reusing the same interfaces and replacing them with a more modern implementation is minimizing the blast radius.  
 Keep the apps as they are and move the configuration out of them. Here are some examples how.  
