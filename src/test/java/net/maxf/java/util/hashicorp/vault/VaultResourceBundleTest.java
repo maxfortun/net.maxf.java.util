@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.springframework.vault.authentication.ClientAuthentication;
@@ -28,11 +30,26 @@ import org.springframework.vault.support.VaultToken;
 
 public class VaultResourceBundleTest {
 	private Logger logger = Logger.getLogger(VaultResourceBundleTest.class.getName());
+	
+	private String vaultAddr;
+	private String vaultToken;
+	private String vaultNamespace;
+
+	public VaultResourceBundleTest() {
+		vaultAddr = System.getenv("VAULT_ADDR");
+		vaultToken = System.getenv("VAULT_TOKEN");
+		vaultNamespace = System.getenv("VAULT_NAMESPACE");
+	}
+
+	boolean vaultAvailable() {
+		return vaultAddr != null && vaultToken != null;
+	}
 
 	@Test
+	@EnabledIf("vaultAvailable")
 	public void testVaultResourceBundleTestGetKeys() throws Exception {
-		ClientAuthentication clientAuthentication = new TokenAuthentication(VaultToken.of(System.getenv("VAULT_TOKEN")));
-		VaultTemplate vaultTemplate = new NamespaceScopedVaultTemplate(VaultEndpoint.from(new URI(System.getenv("VAULT_ADDR"))), clientAuthentication, System.getenv("VAULT_NAMESPACE"));
+		ClientAuthentication clientAuthentication = new TokenAuthentication(VaultToken.of(vaultToken));
+		VaultTemplate vaultTemplate = new NamespaceScopedVaultTemplate(VaultEndpoint.from(new URI(vaultAddr)), clientAuthentication, vaultNamespace);
 		VaultKeyValueOperations vaultKeyValueOperations = vaultTemplate.opsForKeyValue("secret", KeyValueBackend.unversioned());
 
 		ResourceBundle resourceBundle = new VaultResourceBundle(vaultKeyValueOperations);
