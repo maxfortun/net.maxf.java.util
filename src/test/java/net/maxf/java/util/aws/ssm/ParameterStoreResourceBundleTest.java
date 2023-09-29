@@ -1,5 +1,7 @@
 package net.maxf.java.util.aws.ssm;
 
+import software.amazon.awssdk.services.sts.StsClient;
+
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 
@@ -16,15 +18,19 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ParameterStoreResourceBundleTest {
 	private Logger logger = Logger.getLogger(ParameterStoreResourceBundleTest.class.getName());
-
-	@Test
-	public void testParameterStoreResourceBundleTestGetKeys() throws Exception {
+	
+	private SsmClient ssmClient = null;
+	
+	public ParameterStoreResourceBundleTest() {
 		AwsCredentialsProvider awsCredentialsProvider = DefaultCredentialsProvider.create();
 
 		Region region = DefaultAwsRegionProviderChain.builder().build().getRegion();
@@ -34,12 +40,23 @@ public class ParameterStoreResourceBundleTest {
 			region = Region.of(regionName);
 		}
 
-		SsmClient ssmClient = SsmClient.builder()
-								.credentialsProvider(awsCredentialsProvider)
-								.region(region)
-								.build();
+		StsClient stsClient = StsClient.create();
 
+		try {
+			stsClient.getCallerIdentity().account();
+			ssmClient = SsmClient.create();
+		} catch(Exception e) {
+			logger.log(Level.WARNING, "Not logged in into AWS", e);
+		}
+	}
 
+	boolean awsAvailable() {
+		return ssmClient != null;
+	}
+
+	@Test
+	@EnabledIf("awsAvailable")
+	public void testParameterStoreResourceBundleTestGetKeys() throws Exception {
 		ResourceBundle resourceBundle = new ParameterStoreResourceBundle(ssmClient).maxResults(10);
 
 		Enumeration<String> keyEnumeration = resourceBundle.getKeys();
