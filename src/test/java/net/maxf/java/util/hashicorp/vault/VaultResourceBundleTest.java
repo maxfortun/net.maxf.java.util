@@ -40,8 +40,12 @@ public class VaultResourceBundleTest {
 		Enumeration<String> keyEnumeration = resourceBundle.getKeys();
 		for(int i = 0; keyEnumeration.hasMoreElements() && i < 20; i++) {
 			String key = keyEnumeration.nextElement();
-			String value = resourceBundle.getString(key);
-			logger.fine(key+"="+value);
+			if(key.endsWith("/")) {
+				logger.fine(key);
+			} else {
+				String value = resourceBundle.getString(key);
+				logger.fine(key+"="+value);
+			}
 		}
 	}
 
